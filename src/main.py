@@ -16,8 +16,6 @@ import time
 import sys
 import model
 import datahelper
-LOGGER = logging.getLogger("toxic_dataset")
-
 
 
 device = -1 # 0 for gpu, -1 for cpu
