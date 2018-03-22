@@ -82,7 +82,7 @@ if not test_mode:
         for batch, label in train_dl:
             batch_start = time.time()
             y_pred,_ = MODEL(batch)
-            loss = loss_function(y_pred, label)
+            loss = loss_function(y_pred, label-1)
             MODEL.zero_grad()
             loss.backward()
             optimizer.step()

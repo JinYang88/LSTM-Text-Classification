@@ -14,7 +14,7 @@ class BatchWrapper:
                   else:
                         y = torch.zeros((1))
 
-                  yield (x, y)
+                  yield (x, y.view(-1))
   
       def __len__(self):
             return len(self.dl)
