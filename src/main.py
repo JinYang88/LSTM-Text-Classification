@@ -54,7 +54,7 @@ train_iter = data.BucketIterator(dataset=train, batch_size=batch_size, sort_key=
 test_iter = data.Iterator(dataset=test, batch_size=batch_size, device=device, shuffle=False, repeat=False)
 
 
-train_dl = datahelper.BatchWrapper(train_iter, "Review", ["Id", "Label"])
+train_dl = datahelper.BatchWrapper(train_iter, "Review", ["Label"])
 test_dl = datahelper.BatchWrapper(test_iter, "Review", ["Id"])
 
 print('Reading data done.')
