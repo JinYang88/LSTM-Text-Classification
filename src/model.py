@@ -1,10 +1,11 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
+import torch.nn.functional as F
 
 class lstm_model(torch.nn.Module) :
     def __init__(self,vocab_size, embedding_dim, hidden_dim, batch_size) :
-        super(Model,self).__init__()
+        super(lstm_model,self).__init__()
         self.hidden_dim = hidden_dim
         self.batch_size = batch_size
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
