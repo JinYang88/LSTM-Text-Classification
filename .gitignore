@@ -1,3 +1,6 @@
 data/
-.pth
-
+*.pth
+*.tsv
+*.pyc
+*.ipynb
+__pycache__/
