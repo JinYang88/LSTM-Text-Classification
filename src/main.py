@@ -88,7 +88,8 @@ if not test_mode:
             optimizer.step()
             batch_count += 1
             batch_end = time.time()
-            print('Finish {}/{} batch, {}/{} epoch. Time consuming {}s, loss is {}'.format(batch_count, batch_num, i+1, epochs, round(batch_end - batch_start, 2), float(loss)))
+            if batch_count % 50 == 0:
+                print('Finish {}/{} batch, {}/{} epoch. Time consuming {}s, loss is {}'.format(batch_count, batch_num, i+1, epochs, round(batch_end - batch_start, 2), float(loss)))
         torch.save(MODEL.state_dict(), 'model' + str(i+1)+'.pth')           
 
 # Test
@@ -99,7 +100,7 @@ f1 = open('submission.csv','w')
 f1.write('"id","sentiment"'+'\n')
 final_res = []
 
-for batch in iter(test_dl):
+for batch, _ in iter(test_dl):
     hidden = MODEL.init_hidden()
     y_pred,_ = MODEL(batch)
     pred_res = y_pred.data.max(1)[1].cpu().numpy()
