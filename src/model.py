@@ -11,7 +11,7 @@ class lstm(torch.nn.Module) :
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
         self.lstm = nn.LSTM(embedding_dim, hidden_dim, batch_first=True)
         self.linearOut = nn.Linear(hidden_dim,2)
-        
+
     def forward(self,inputs) :
         x = self.embeddings(inputs)
         lstm_out,lstm_h = self.lstm(x, None)
@@ -27,7 +27,7 @@ class bi_lstm(torch.nn.Module) :
         self.hidden_dim = hidden_dim
         self.batch_size = batch_size
         self.embeddings = nn.Embedding(vocab_size, embedding_dim)
-        self.lstm = nn.LSTM(embedding_dim, hidden_dim//2, batch_first=True, bidirectional=True)
+        self.lstm = nn.LSTM(embedding_dim, hidden_dim//2, batch_first=True, bidirectional=True, dropout=0.8)
         self.linearOut = nn.Linear(hidden_dim,2)
 
     def forward(self,inputs) :
