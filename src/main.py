@@ -62,7 +62,7 @@ print('Reading data done.')
 
 
 print('Initialing model..')
-MODEL = model.lstm_model(len(TEXT.vocab), embedding_dim, hidden_dim, batch_size)
+MODEL = model.bi_lstm(len(TEXT.vocab), embedding_dim, hidden_dim, batch_size)
 if device == 0:
     MODEL.cuda()
 
@@ -81,14 +81,14 @@ if not test_mode:
         batch_count = 0
         for batch, label in train_dl:
             batch_start = time.time()
-            y_pred,_ = MODEL(batch)
+            y_pred = MODEL(batch)
             loss = loss_function(y_pred, label-1)
             MODEL.zero_grad()
             loss.backward()
             optimizer.step()
             batch_count += 1
-            batch_end = time.time()
             if batch_count % 50 == 0:
+                batch_end = time.time()
                 print('Finish {}/{} batch, {}/{} epoch. Time consuming {}s, loss is {}'.format(batch_count, batch_num, i+1, epochs, round(batch_end - batch_start, 2), float(loss)))
         torch.save(MODEL.state_dict(), 'model' + str(i+1)+'.pth')           
 
@@ -102,7 +102,7 @@ final_res = []
 
 for batch, _ in iter(test_dl):
     hidden = MODEL.init_hidden()
-    y_pred,_ = MODEL(batch)
+    y_pred = MODEL(batch)
     pred_res = y_pred.data.max(1)[1].cpu().numpy()
     final_res.extend(pred_res)
 
