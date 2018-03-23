@@ -24,6 +24,7 @@ test_mode = 0  # 0 for train+test 1 for test
 embedding_dim = 100
 hidden_dim = 64
 epochs = 4
+start_with = 4 # start at 4th epoch
 
 
 
@@ -63,6 +64,9 @@ print('Reading data done.')
 
 print('Initialing model..')
 MODEL = model.bi_lstm(len(TEXT.vocab), embedding_dim, hidden_dim, batch_size)
+if start_with > 0:
+    MODEL.load_state_dict(torch.load('model{}.pth'.format(start_with)))
+
 if device == 0:
     MODEL.cuda()
 
@@ -101,7 +105,6 @@ f1.write('"id","sentiment"'+'\n')
 final_res = []
 
 for batch, _ in iter(test_dl):
-    hidden = MODEL.init_hidden()
     y_pred = MODEL(batch)
     pred_res = y_pred.data.max(1)[1].cpu().numpy()
     final_res.extend(pred_res)
