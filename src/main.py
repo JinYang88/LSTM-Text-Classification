@@ -74,13 +74,13 @@ if not test_mode:
 
     train_iter.create_batches()
     batch_num = len(list(train_iter.batches))
+    batch_start = time.time()
 
     for i in range(epochs) :
         avg_loss = 0.0
         train_iter.init_epoch()
         batch_count = 0
         for batch, label in train_dl:
-            batch_start = time.time()
             y_pred = MODEL(batch)
             loss = loss_function(y_pred, label-1)
             MODEL.zero_grad()
